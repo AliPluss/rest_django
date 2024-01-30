@@ -8,6 +8,7 @@ from .serializer import *
 # create post model
 # Create get all data in:------- start the get -> function 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_all_postes(request):
     try:
       postes = Post.objects.all()
@@ -19,6 +20,7 @@ def get_all_postes(request):
 
 # Create new post data :-----start the post -> function 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def create_post(request):
     if request.method == 'POST':
        try:
@@ -44,6 +46,7 @@ def get_one_post(request, pk):
 
 #create update the opst:-- start the put -> function
 @api_view(['PUT'])
+@permission_classes([IsAuthenticated])
 def update_post(request,pk):
     try:
         post = Post.objects.get(pk=pk)

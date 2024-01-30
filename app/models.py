@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from account.models import UserAccount
 # to save slug automatically 
 from django.template.defaultfilters import slugify
 
@@ -15,7 +15,7 @@ class Category(models.Model):
 # Create post class:-------------------------- start the post model
 class Post(models.Model):
     # relationship btween user and Post class  
-    auther = models.ForeignKey(User, on_delete= models.CASCADE) 
+    auther = models.ForeignKey(UserAccount, on_delete= models.CASCADE) 
     # relationship btween Categroy and Post class 
     category = models.ForeignKey(Category, on_delete= models.SET_NULL, null=True,related_name='categroy') 
     title = models.CharField(max_length=200)
@@ -24,7 +24,7 @@ class Post(models.Model):
     is_public = models.BooleanField(default=True)
     slug = models.CharField(max_length=200, blank=True , null= True)
     # relationship btween user and Post class  
-    likes = models.ManyToManyField(User, related_name='likes', blank=True)
+    likes = models.ManyToManyField(UserAccount, related_name='likes', blank=True)
     # like counts
     like_counts = models.PositiveIntegerField(default=0)
 
@@ -51,7 +51,7 @@ class Post(models.Model):
 
 # comment system post models:------------------- start the comment models
 class PostComment(models.Model):
-    auther = models.ForeignKey(User,on_delete = models.SET_NULL, null=True)
+    auther = models.ForeignKey(UserAccount,on_delete = models.SET_NULL, null=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     description = models.TextField()
     date = models.DateTimeField(auto_now_add= True)
@@ -63,7 +63,7 @@ class PostComment(models.Model):
 
 
 class NestedComment(models.Model):
-    auther = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    auther = models.ForeignKey(UserAccount, on_delete=models.SET_NULL, null=True)
     nested_comment = models.ForeignKey(PostComment, on_delete=models.CASCADE)
     comment = models.TextField()
     date = models.DateField(auto_now=True)
